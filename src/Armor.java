@@ -4,6 +4,15 @@
  */
 public class Armor {
 
+	/**
+	 * Le nom de l'armure par defaut.
+	 */
+	public String DEFAULT_NAME = "Armure de cuir";
+	/**
+	 * La defense procuré par l'armure par defaut.
+	 */
+	public int DEFAULT_DEFENSE = 1;
+
 	private String name;
 	private int defense;
 
@@ -22,8 +31,13 @@ public class Armor {
 	 *            Le nom de la nouvelle armure.
 	 * @param startDefense
 	 *            La defense que procure la nouvelle armure.
+	 * @throws ExceptionNegativeDefense
+	 *             La defense de l'armure est negative, ce qui est impossible.
 	 */
-	public Armor(String startName, int startDefense) {
+	public Armor(String startName, int startDefense)
+			throws ExceptionNegativeDefense {
+		if (startDefense < 0)
+			throw new ExceptionNegativeDefense();
 		this.defense = startDefense;
 		this.name = startName;
 	}
@@ -41,8 +55,9 @@ public class Armor {
 	public int getDefense() {
 		return this.defense;
 	}
-	
-	public String toString(){
+
+	@Override
+	public String toString() {
 		String armor = "";
 		armor += this.name + " (" + this.defense + ")";
 		return armor;

@@ -5,13 +5,17 @@
  */
 public class HealthPotion extends Item{
 
+	/**
+	 */
+	public int DEFAULT_EFFICIENCY = 30;
+	
 	private int efficiency;
 
 	/**
 	 * Une potion de vie simple avec une efficacité par defaut.
 	 */
 	public HealthPotion() {
-		this.efficiency = 30;
+		this.efficiency = DEFAULT_EFFICIENCY;
 	}
 
 	/**
@@ -24,11 +28,14 @@ public class HealthPotion extends Item{
 		this.efficiency = newEfficiency;
 	}
 
-	/**
-	 * @return l'efficacité de la potion.
-	 */
-	public int getEfficiency() {
-		return this.efficiency;
+	@Override
+	public void use(Character character) {
+		character.alterLife(this.efficiency);
+	}
+
+	@Override
+	public String toString() {
+		return "HealthPotion (" + this.efficiency + ")";
 	}
 
 }

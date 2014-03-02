@@ -13,8 +13,7 @@ public class Game {
 	public static void main(final String[] args) {
 		Character romain = new Character("Romain");
 		Character lucas = new Character("Lucas");
-		HealthPotion potion = new HealthPotion();
-		romain.addItem(potion);
+
 		while (romain.isAlive() && lucas.isAlive()) {
 			System.out.println("Joueur 1");
 			Game.jouer(romain, lucas);
@@ -39,7 +38,6 @@ public class Game {
 		int choice;
 		String name = "";
 		int power = 10;
-		System.out.println("Joueur1 :\n");
 		System.out
 				.println("1: Attaquer\n2: Changer d'armure\n3: Changer d'arme");
 		choice = sc.nextInt();
@@ -53,14 +51,22 @@ public class Game {
 			name = sc.next();
 			System.out.println("Défense :");
 			power = sc.nextInt();
-			player.changeArmor(new Armor(name, power));
+			try {
+				player.changeArmor(new Armor(name, power));
+			} catch (ExceptionNegativeDefense e) {
+				player.changeArmor(new Armor() );
+			}
 			break;
 		case 3:
 			System.out.println("Nom de l'arme :");
 			name = sc.next();
 			System.out.println("Dégâts :");
 			power = sc.nextInt();
-			player.changeWeapon(new Weapon(name, power));
+			try {
+				player.changeWeapon(new Weapon(name, power));
+			} catch (ExceptionNegativeDamage e) {
+				player.changeWeapon(new Weapon() );
+			}
 			break;
 		default:
 			break;

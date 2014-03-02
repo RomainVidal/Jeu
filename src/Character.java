@@ -23,7 +23,6 @@ public class Character {
 	/**
 	 * Taille de l'inventaire par defaut.
 	 */
-	private static final int DEFAULT_INVENTORY_SIZE = 0;
 
 	private int life;
 	private int mana;
@@ -31,8 +30,7 @@ public class Character {
 	private String name;
 	private Weapon weapon;
 	private Armor armor;
-
-	private Item[] inventory;
+	private Inventory inventory;
 
 	/**
 	 * Crée un personnage avec un niveau par defaut, une vie par defaut, un
@@ -48,12 +46,10 @@ public class Character {
 		this.mana = DEFAULT_MANA;
 		this.weapon = new Weapon();
 		this.armor = new Armor();
+		this.inventory = new Inventory();
 		this.name = startName;
 		Character.COUNT++;
 
-		for (int i = 0; i < DEFAULT_INVENTORY_SIZE; i++) {
-			this.inventory[i] = null;
-		}
 	}
 
 	/**
@@ -84,36 +80,39 @@ public class Character {
 	 *            le personnage que l'on attaque.
 	 */
 	public void doDamage(Character character) {
-		character.getDamage(this.weapon.getDamage());
+		int damages = this.weapon.getDamage() * -1;
+		character.alterLife(damages);
 	}
 
 	/**
-	 * Inflige des dégâts au personnage en prennant en compte les degats infligé
+	 * Inflige des dég‰ts au personnage en prennant en compte les degats infligé
 	 * et l'armure.
 	 * 
-	 * @param damage
-	 *            le nombre de dégât subit.
+	 * Ou ajoute de la vie au personnage.
+	 * 
+	 * @param variationLife
+	 *            la vie qu'on souhaite ajouter ( avec plus ) ou retirer ( avec
+	 *            moins ).
 	 */
-	public void getDamage(int damage) {
-		if ((damage - this.armor.getDefense()) > 0)
-			this.life -= damage - this.armor.getDefense();
-		if (this.life < 0)
-			this.life = 0;
+	public void alterLife(int variationLife) {
+		if (variationLife < 0) {
+			if ((variationLife + this.armor.getDefense()) < 0)
+				this.life += variationLife + this.armor.getDefense();
+			if (this.life < 0)
+				this.life = 0;
+		} else
+			this.life += variationLife;
 	}
 
 	/**
-	 * Ajouter un item à l'inventaire
+	 * Modifie le mana du personnage.
 	 * 
-	 * @param newItem
-	 *            l'item à ajouter a l'inventaire.
+	 * @param variationMana
+	 *            qu'on souhaite ajouter ( avec plus ) ou retirer ( avec moins
+	 *            ).
 	 */
-	public void addItem(Item newItem) {
-		int i = 0;
-		while (i < DEFAULT_INVENTORY_SIZE && this.inventory[i] == null)
-			i++;
-		// TODO Ne marche pas :/ NullPointerExeption
-		if (this.inventory[i] == null)
-			this.inventory[i] = newItem;
+	public void alterMana(int variationMana) {
+		this.mana += variationMana;
 	}
 
 	/**
@@ -123,11 +122,49 @@ public class Character {
 		return (this.life > 0);
 	}
 
+	/**
+	 * Ajoute un item à l'inventaire
+	 * 
+	 * @param newItem
+	 *            l'item à ajouter a l'inventaire.
+	 */
+	public void addInventoryItem(Item newItem) {
+		try {
+			this.inventory.addItem(newItem);
+		} catch (ExceptionFullInventory e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Utiliser une potion de vie.
+	 */
+	public void useHeathPotion() {
+		try {
+			this.inventory.useHealthPotion(this);
+		} catch (ExceptionNoItem e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Utiliser une potion de mana.
+	 */
+	public void useManaPotion() {
+		try {
+			this.inventory.useManaPotion(this);
+		} catch (ExceptionNoItem e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
 	public String toString() {
 		String character = "";
 		character += "\t" + this.name + " (nv " + this.level + ")" + "\nvie : "
 				+ this.life + " mana : " + this.mana + "\nArme : "
-				+ this.weapon + " armure : " + this.armor;
+				+ this.weapon + " armure : " + this.armor + "\n"
+				+ this.inventory.toString();
 		return character;
 	}
 
