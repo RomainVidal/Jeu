@@ -12,7 +12,7 @@ public class Weapon {
 	/**
 	 * DŽg‰ts d'une arme par defaut.
 	 */
-	public int DEFAULT_DAMAGE = 60;
+	public int DEFAULT_DAMAGE = 50;
 
 	private String name;
 	private int damage;
