@@ -7,10 +7,10 @@ public class Weapon {
 	/**
 	 * Nom par defaut d'une arme.
 	 */
-	public String DEFAULT_NAME = "EpŽe de bois";
+	public String DEFAULT_NAME = "Epée de bois";
 
 	/**
-	 * DŽg‰ts d'une arme par defaut.
+	 * Dégâts d'une arme par defaut.
 	 */
 	public int DEFAULT_DAMAGE = 50;
 
@@ -18,7 +18,7 @@ public class Weapon {
 	private int damage;
 
 	/**
-	 * Une arme par defaut. Cette ŽpŽe de bois fait 10 de dégats.
+	 * Une arme par defaut.
 	 */
 	public Weapon() {
 		this.name = DEFAULT_NAME;
@@ -31,9 +31,9 @@ public class Weapon {
 	 * @param startName
 	 *            Le nom de l'arme
 	 * @param startDamage
-	 *            les dommages que va infliger l'arme crŽe.
+	 *            les dommages que va infliger l'arme crée.
 	 * @throws ExceptionNegativeDamage
-	 *             Les dommage infligŽ par l'arme son nŽgatif. Ce qui est
+	 *             Les dommage infligé par l'arme son négatif. Ce qui est
 	 *             impossible.
 	 */
 	public Weapon(String startName, int startDamage)
@@ -52,7 +52,7 @@ public class Weapon {
 	}
 
 	/**
-	 * @return les dŽg‰ts que va infliger l'arme.
+	 * @return les dégâts que va infliger l'arme.
 	 */
 	public int getDamage() {
 		return this.damage;

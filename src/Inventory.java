@@ -1,6 +1,5 @@
 import java.util.Arrays;
 
-
 /**
  * @author Romain
  * 
@@ -11,10 +10,10 @@ public class Inventory {
 	/**
 	 * La taille maximal de l'inventaire.
 	 */
-	private static final int DEFAULT_INVENTORY_SIZE = 20;
-	
+	private static final int DEFAULT_INVENTORY_SIZE = 10;
+
 	private Item[] bag;
-	
+
 	/**
 	 * Un inventaire de taille par defaut qui ne contient rien.
 	 */
@@ -26,34 +25,34 @@ public class Inventory {
 			this.bag[i] = null;
 		}
 	}
-	
+
 	/**
-	 * Ajoute un item à l'inventaire
+	 * Ajoute un item Ã  l'inventaire
 	 * 
 	 * @param newItem
-	 *            l'item à ajouter a l'inventaire.
+	 *            l'item Ã  ajouter a l'inventaire.
 	 * @throws ExceptionFullInventory L'inventaire est plein, impossible d'ajouter un item.
 	 */
 	public void addItem(Item newItem) throws ExceptionFullInventory {
 		int i = 0;
 		while (i < DEFAULT_INVENTORY_SIZE && this.bag[i] != null)
 			i++;
-		if(i == DEFAULT_INVENTORY_SIZE-1) throw new ExceptionFullInventory();
+		if(i == DEFAULT_INVENTORY_SIZE) throw new ExceptionFullInventory();
 		if (this.bag[i] == null)
 			this.bag[i] = newItem;
 	}
-	
+
 	/**
 	 * Le personnage utilise une potion de vie.
 	 * 
-	 * @param character Le personnage qui reoit la potion.
-	 * @throws ExceptionNoItem L'item n'a pas pu tre trouvŽ.
+	 * @param character Le personnage qui reÃ§oit la potion.
+	 * @throws ExceptionNoItem L'item n'a pas pu Ãªtre trouvÃ©.
 	 */
 	public void useHealthPotion(Character character) throws ExceptionNoItem {
 		int i = 0;
 		while (i < DEFAULT_INVENTORY_SIZE && !(this.bag[i] instanceof HealthPotion) )
 			i++;
-		if(i == DEFAULT_INVENTORY_SIZE-1) throw new ExceptionNoItem();
+		if(i == DEFAULT_INVENTORY_SIZE) throw new ExceptionNoItem();
 		this.bag[i].use(character);
 		this.bag[i] = null;
 	}
@@ -61,22 +60,22 @@ public class Inventory {
 	/**
 	 * Le personnage utilise une potion de mana.
 	 * 
-	 * @param character Le personnage qui reoit la potion.
-	 * @throws ExceptionNoItem L'item n'a pas pu tre trouvŽ.
+	 * @param character Le personnage qui reÃ§oit la potion.
+	 * @throws ExceptionNoItem L'item n'a pas pu Ãªtre trouvÃ©.
 	 */
 	public void useManaPotion(Character character) throws ExceptionNoItem {
 		int i = 0;
 		while (i < DEFAULT_INVENTORY_SIZE && !(this.bag[i] instanceof ManaPotion) )
-			i++;
-		if(i == DEFAULT_INVENTORY_SIZE-1) throw new ExceptionNoItem();
+			{i++;}
+		if(i == DEFAULT_INVENTORY_SIZE) throw new ExceptionNoItem();
 		this.bag[i].use(character);
 		this.bag[i] = null;
 		
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Inventaire [" + Arrays.toString(this.bag) + "]";
 	}
-	
+
 }

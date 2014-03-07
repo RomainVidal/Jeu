@@ -81,6 +81,9 @@ public class Character {
 	 */
 	public void doDamage(Character character) {
 		int damages = this.weapon.getDamage() * -1;
+		damages -= character.armor.getDefense();
+		if (damages > 0)
+			damages = 0;
 		character.alterLife(damages);
 	}
 
@@ -95,13 +98,9 @@ public class Character {
 	 *            moins ).
 	 */
 	public void alterLife(int variationLife) {
-		if (variationLife < 0) {
-			if ((variationLife + this.armor.getDefense()) < 0)
-				this.life += variationLife + this.armor.getDefense();
-			if (this.life < 0)
-				this.life = 0;
-		} else
-			this.life += variationLife;
+		this.life += variationLife;
+		if (this.life < 0)
+			this.life = 0;
 	}
 
 	/**
@@ -127,44 +126,46 @@ public class Character {
 	 * 
 	 * @param newItem
 	 *            l'item à ajouter a l'inventaire.
+	 * @throws ExceptionFullInventory
+	 *             L'objet n'a pas pu être ajouter, l'inventaire est plein.
 	 */
-	public void addInventoryItem(Item newItem) {
-		try {
-			this.inventory.addItem(newItem);
-		} catch (ExceptionFullInventory e) {
-			e.printStackTrace();
-		}
+	public void addInventoryItem(Item newItem) throws ExceptionFullInventory {
+		this.inventory.addItem(newItem);
 	}
 
 	/**
 	 * Utiliser une potion de vie.
+	 * 
+	 * @throws ExceptionNoItem
+	 *             L'item n'a pas pu être trouvé dans l'inventaire.
 	 */
-	public void useHeathPotion() {
-		try {
-			this.inventory.useHealthPotion(this);
-		} catch (ExceptionNoItem e) {
-			e.printStackTrace();
-		}
+	public void useHeathPotion() throws ExceptionNoItem {
+		this.inventory.useHealthPotion(this);
 	}
 
 	/**
 	 * Utiliser une potion de mana.
+	 * 
+	 * @throws ExceptionNoItem
+	 *             L'item n'a pas pu être trouvé dans l'inventaire.
 	 */
-	public void useManaPotion() {
-		try {
-			this.inventory.useManaPotion(this);
-		} catch (ExceptionNoItem e) {
-			e.printStackTrace();
-		}
+	public void useManaPotion() throws ExceptionNoItem {
+		this.inventory.useManaPotion(this);
 	}
 
+	/**
+	 * @return Une chaine de caractére contenant l'inventaire.
+	 */
+	public String displayInvertory() {
+		return this.inventory.toString();
+	}
+	
 	@Override
 	public String toString() {
 		String character = "";
 		character += "\t" + this.name + " (nv " + this.level + ")" + "\nvie : "
 				+ this.life + " mana : " + this.mana + "\nArme : "
-				+ this.weapon + " armure : " + this.armor + "\n"
-				+ this.inventory.toString();
+				+ this.weapon + " armure : " + this.armor + "\n";
 		return character;
 	}
 
