@@ -31,6 +31,7 @@ public class Character {
 	private Weapon weapon;
 	private Armor armor;
 	private Inventory inventory;
+	private Coordinate coordinate;
 
 	/**
 	 * Crée un personnage avec un niveau par defaut, une vie par defaut, un
@@ -154,12 +155,32 @@ public class Character {
 	}
 
 	/**
+	 * Le joueur se deplace sur la carte.
+	 * 
+	 * @param newPlayerCoordinate
+	 *            les nouveaux coordonnée du joueur
+	 * @throws ExceptionCantMoving
+	 *             Le joueur ne peut pas se deplacer au coordonné rentré en
+	 *             paramétre.
+	 */
+	public void move(Coordinate newPlayerCoordinate) throws ExceptionCantMoving {
+		this.coordinate = newPlayerCoordinate;
+	}
+	
+	/**
+	 * @return Les coordonnées du personnage
+	 */
+	public Coordinate getCoordinate() {
+		return coordinate;
+	}
+
+	/**
 	 * @return Une chaine de caractére contenant l'inventaire.
 	 */
 	public String displayInvertory() {
 		return this.inventory.toString();
 	}
-	
+
 	@Override
 	public String toString() {
 		String character = "";
